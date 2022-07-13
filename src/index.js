@@ -1,14 +1,25 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import "./index.css";
+import App from "./App";
+import reportWebVitals from "./reportWebVitals";
+import { applyMiddleware, createStore } from "redux";
+import { Provider } from "react-redux";
+import rootReducer from "./modules";
+import logger from "redux-logger";
+import { composeWithDevTools } from "redux-devtools-extension";
+import ReduxThunk from "redux-thunk";
 
-const root = ReactDOM.createRoot(document.getElementById('root'));
+const store = createStore(
+  rootReducer,
+  composeWithDevTools(applyMiddleware(ReduxThunk, logger))
+); // 여러개의 미들웨어를 적용 할 수 있습니다.
+
+const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
-  <React.StrictMode>
+  <Provider store={store}>
     <App />
-  </React.StrictMode>
+  </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function
